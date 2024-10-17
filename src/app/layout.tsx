@@ -1,17 +1,4 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import './globals.css';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,4 +19,33 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+
+const pretendard = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Pretendard-ExtraBold.subset.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Pretendard-Bold.subset.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Pretendard-SemiBold.subset.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Pretendard-Medium.subset.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Pretendard-Regular.subset.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+});
