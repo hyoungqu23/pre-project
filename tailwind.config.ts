@@ -1,3 +1,5 @@
+import tailwindcssAspectRatioPlugin from '@tailwindcss/aspect-ratio';
+import tailwindcssFormsPlugin from '@tailwindcss/forms';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -10,6 +12,10 @@ const config: Config = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    tailwindcssFormsPlugin,
+    tailwindcssAspectRatioPlugin,
+  ],
 };
+
 export default config;
