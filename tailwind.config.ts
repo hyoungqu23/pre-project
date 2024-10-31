@@ -61,7 +61,20 @@ const config: Config = {
     './src/shared/**/*.{ts,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        tablet: '576px',
+        laptop: '940px',
+        desktop: '1280px',
+        desktop_max: '1920px',
+      },
+      borderRadius: {
+        10: '0.625rem',
+        20: '1.25rem',
+        40: '2.5rem',
+        80: '5rem',
+      },
+    },
   },
   plugins: [
     tailwindcssFormsPlugin,
