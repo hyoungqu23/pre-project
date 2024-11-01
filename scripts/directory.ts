@@ -17,19 +17,66 @@ const createFSDDirectories = () => {
 
   const baseDir = 'src';
   const targetDir = path.join(baseDir, targetPath);
+  const pathWithoutApp = targetPath.slice(4);
+
   createDirectory(targetDir);
 
   const lastPart = path.basename(targetPath);
-  const formattedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
+  let formattedName = lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
 
   if (targetPath.startsWith('app/')) {
+    formattedName = pathWithoutApp
+      .split(/[^a-zA-Z0-9]+/)
+      .filter((part) => part.length > 0)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join('');
+
     if (targetPath.startsWith('app/api/')) {
-      fs.writeFileSync(path.join(targetDir, 'route.ts'), '');
+      const routeContent = `
+import type { NextRequest } from 'next/server';
+
+export const GET = async (request: NextRequest) => {
+  try {
+    
+  } catch (error) {
+    console.log('🔥 [${formattedName}.ts] Error Message: ', error)
+  }
+};
+
+export const POST = async (request: NextRequest) => {
+  try {
+    
+  } catch (error) {
+    console.log('🔥 [${formattedName}.ts] Error Message: ', error)
+  }
+};
+      `;
+
+      fs.writeFileSync(path.join(targetDir, 'route.ts'), routeContent);
       console.log(
         `${formattedName} Route Handler가 생성되었습니다. 🙋🏻 Server Action을 사용하는 것은 어떨까요?`,
       );
     } else {
-      const pageContent = `
+      const isDynamicRoute = lastPart.startsWith('[') && lastPart.endsWith(']');
+      let pageContent;
+
+      if (isDynamicRoute) {
+        const paramName = lastPart.slice(1, -1);
+        pageContent = `
+interface I${formattedName}PageProps {
+  params: { ${paramName}: string; };
+}
+
+const ${formattedName}Page = ({
+  params: { ${paramName} }
+}: I${formattedName}PageProps) => {
+  return <>${formattedName}</>;
+};
+
+export default ${formattedName}Page;
+`;
+      } else {
+        pageContent = `
 interface I${formattedName}PageProps {}
 
 const ${formattedName}Page = ({}: I${formattedName}PageProps) => {
@@ -38,6 +85,7 @@ const ${formattedName}Page = ({}: I${formattedName}PageProps) => {
 
 export default ${formattedName}Page;
 `;
+      }
       fs.writeFileSync(path.join(targetDir, 'page.tsx'), pageContent);
       console.log(`${formattedName} Page가 생성되었습니다.`);
     }
