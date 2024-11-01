@@ -71,7 +71,6 @@ const getTypeExports = (filePath: string): string[] => {
 
   while ((match = regex.exec(fileContent)) !== null) {
     if (!match[2].startsWith('_')) {
-      // '_'로 시작하지 않는 경우 필터링
       matches.push(match[2]);
     }
   }
